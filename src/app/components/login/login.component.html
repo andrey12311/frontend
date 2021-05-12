@@ -1,0 +1,18 @@
+<div class="wrapper">
+  <div id="formContent">
+
+    <!-- Login Form -->
+    <form #loginForm = "ngForm" (ngSubmit)="onLogin(loginForm.value)">
+      <input type="text" id="login" name="email" placeholder="email" ngModel> 
+      <input type="password" id="password" name="password" placeholder="parola" ngModel>
+      <input type="submit" value="Log In">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Ai uitat parola?</a>
+      <a class="underlineHover" href="#" routerLink="/register">Creeaza-ti cont</a>
+    </div>
+
+  </div>
+</div>

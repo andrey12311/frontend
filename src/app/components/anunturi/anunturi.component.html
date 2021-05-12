@@ -1,0 +1,40 @@
+<div class="container">
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <form class="card card-sm ">
+                <div class="card-body row no-gutters align-items-center">
+                    <div class="col-auto">
+                        <i class="fas fa-search h4 text-body"></i>
+                    </div>
+                    <!--end of col-->
+                    <div class="col">
+                        <input class="form-control form-control-lg form-control-borderless" type="search"
+                            placeholder="Cauta">
+                    </div>
+                    <!--end of col-->
+                    <div class="col-auto">
+                        <button class="btn btn-md orange" type="submit">Cautare</button>
+                    </div>
+                    <!--end of col-->
+                </div>
+            </form>
+            <!--end of col-->
+        </div>
+    </div>
+
+    <br>
+
+    <div onclick="location.href;" style = "cursor:pointer" routerLink = "/anunturi/{{anunt.id}}" *ngFor="let anunt of anunturi" class="card shadow p-3 mb-5 bg-white rounded">
+        <img src="https://cumsa.ro/wp-content/uploads/2020/10/cum-sa-iti-dai-seama-ca-un-caine-este-constipat-768x432.jpg"
+            class="card-img-top" />
+        <div class="card-body">
+            <h5 class="card-title">{{anunt.title}}</h5>
+            <ul>
+                <li>{{anunt.city}},{{anunt.county}}</li>
+                <li>{{anunt.species}}</li>
+                <li>{{anunt.dateAdded}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="wrapper">
+  <div id="formContent">
+
+    <!-- Register Form -->
+    <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm.value)">
+      <input required type="email" id="login" name="email" placeholder="Email" ngModel #email="ngModel" email=true>
+      <span *ngIf="!email.valid && email.touched">Introduceti o adresa de email valida!</span>
+      <input required type="password" id="password" name="password" placeholder="Parola" ngModel #password="ngModel">
+      <span *ngIf="!password.valid && password.touched">Introduceti o parola</span>
+      <input required type="text" name="firstName" placeholder="prenume" ngModel #firstName="ngModel">
+      <span *ngIf="!firstName.valid && firstName.touched">Introduceti prenumele</span>
+      <input required type="text" name="lastName" ngModel #lastName="ngModel" placeholder="Nume">
+      <span *ngIf="lastName.touched && !lastName.valid">Introduceti numele de familie!</span>
+      <input #createButton [disabled] = "!registerForm.valid" [ngClass] ="{disabled:!registerForm.valid}"
+       type="submit" value="Creeaza cont">
+    </form>
+  </div>
+  <div *ngIf = "isLoading" id="circle">
+    <div #load class ="loader">
+    </div>
+  </div>
+</div>
+
