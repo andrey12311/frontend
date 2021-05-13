@@ -20,5 +20,10 @@ textarea{
 
 .btn{
   background-color: orange;
-  
+  margin-top : 5px;
+}
+
+.uncomplete{
+  color:red;
+  margin-top:5px;
 }

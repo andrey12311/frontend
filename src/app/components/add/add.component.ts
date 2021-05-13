@@ -1,5 +1,11 @@
+import { formatDate } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {  FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Anunt } from 'src/app/model/Anunt';
+import { AddAnuntService } from 'src/app/services/add-anunt/add-anunt.service';
+import { LoginService } from 'src/app/services/login/login.service';
+
 
 @Component({
   selector: 'app-add',
@@ -53,34 +59,65 @@ export class AddComponent implements OnInit {
     { name: 'Vrancea', cities: ['Focsani', 'Adjud', 'Marasesti', 'Odobesti', 'Panciu'] },
   ]
 
+  species: string[] = ["Alegeti specia", "Caine", "Pisica", "Papagal", "Hamster", "Arici", "Sarpe", "Altu"];
+
   isLoading: boolean = false;
   cities: Array<any> = [];
+  selectedIndex: number;
+  numberOfWord: number = 0;
 
 
-  constructor() { }
+  constructor(private addAnuntService: AddAnuntService, private loginService: LoginService) { }
 
   ngOnInit(): void {
-  } 
+  }
 
   uploadForm = new FormGroup({
-    'title':new FormControl(null,Validators.required),
-    'county': new FormControl(this.countyList[0],Validators.required),
-    'city': new FormControl(this.cities,Validators.required),
-    'phoneNumber' : new FormControl(null,Validators.required),
-    'description':new FormControl(null,Validators.required)
+    'title': new FormControl("", Validators.required),
+    'county': new FormControl(this.countyList[0].name, Validators.required),
+    'city': new FormControl("adasd", Validators.required),
+    'species': new FormControl(this.species[0], Validators.required),
+    'phoneNumber': new FormControl(null, Validators.required),
+    'description': new FormControl('', Validators.required)
   });
 
   onChangeCounty(event) {
-     const county = event.target.value;
-     console.log(county);
-     
+    const value = event.target.value;
+    const county = value.substring(3, value.length)
     this.cities = this.countyList.find(con => con.name == county).cities;
-    console.log(this.cities);
-    const ceva = this.countyList.find(con => con.name == 'Vrancea').cities;
-    console.log(ceva);
+  }
+
+  onSubmit() {
+    var formData = new FormData();
+    const date = formatDate(new Date(), 'yyyy/MM/dd', 'en');
+    console.log(date);
+    formData.append("user", "1");
+    formData.append("description", this.uploadForm.get('description').value);
+    formData.append("title", this.uploadForm.get('title').value);
+    formData.append("city", this.uploadForm.get('city').value);
+    formData.append("species", this.uploadForm.get('species').value);
+    formData.append("county", this.uploadForm.get('county').value);
+    formData.append("phoneNumber", this.uploadForm.get('phoneNumber').value);
+
+    this.addAnuntService.add(formData).subscribe(
+      (anunt:Anunt) => {
+        console.log(anunt);
+        
+      },
+      (error:HttpErrorResponse) => {
+        console.log(error.error.message);
+        
+      }
+    )
     
-    console.log(this.countyList);
+    console.log(formData.get("description"));
+    console.log(formData.get("title"));
+    console.log(formData.get("city"));
+    console.log(formData.get("species"));
+    console.log(formData.get("phoneNumber"));
+    console.log(formData.get("user"));  
     
   }
 
+  
 }

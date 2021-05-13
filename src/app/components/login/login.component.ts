@@ -10,30 +10,27 @@ import { LoginService } from 'src/app/services/login/login.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  subscriptions:Subscription[] = [];
+  subscriptions: Subscription[] = [];
 
-  constructor(private loginService:LoginService) { }
+  constructor(private loginService: LoginService) { }
 
   ngOnInit(): void {
   }
 
-  
-  onLogin(user:User):void{
-   
-    console.log(user);
+
+  onLogin(user: User): void {
     this.subscriptions.push(
       this.loginService.login(user).subscribe(
-        (user:User)=>{
+        (user: HttpResponse<User>) => {
           console.log(user);
-          this.loginService.loggedInUser = user;
-      },
-        (errorResponse:HttpErrorResponse)=>{
+          
+           this.loginService.loggedInUser = user.body;
+        },
+        (errorResponse: HttpErrorResponse) => {
           console.log(errorResponse);
-         
-        
-          }
+        }
       )
-    );    
+    );
   }
 
 }
