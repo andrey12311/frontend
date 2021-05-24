@@ -14,16 +14,18 @@
             Contul meu
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Anunturile mele</a></li>
-            <li><a class="dropdown-item" href="#">Setari</a></li>
-            <li><a class="dropdown-item" href="#">Iesi din cont</a></li>
+            <li *ngIf = "authenticated"><a class="dropdown-item" routerLink = "/anunturilemele">Anunturile mele</a></li>
+            <li *ngIf = "authenticated"><a class="dropdown-item" routerLink = "/setari">Setari</a></li>
+            <li *ngIf = "!authenticated"><a class="dropdown-item" routerLink  = "/login">Intra in cont</a></li>
+            <li *ngIf = "authenticated"><button class="dropdown-item"  type="submit" (click) = "onLogOut()">Iesi din cont</button></li>
           </ul>
         </li>
       </ul>
       <span class="navbar-text">
-         <button class="btn btn-light me-2" routerLink ="/add">Adauga anunt</button>
+         <button class="btn btn-light me-2" (click) = "onAddClick()">Adauga anunt</button>
       </span>
     </div>
   </div>
 </nav>
 <router-outlet></router-outlet>
+<notifier-container></notifier-container>

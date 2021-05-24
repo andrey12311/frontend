@@ -1,9 +1,11 @@
 import { formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 import { Anunt } from 'src/app/model/Anunt';
-import { AddAnuntService } from 'src/app/services/add-anunt/add-anunt.service';
+import { AnunturiService } from 'src/app/services/anunturi/anunturi.service';
 import { LoginService } from 'src/app/services/login/login.service';
 
 
@@ -65,11 +67,15 @@ export class AddComponent implements OnInit {
   cities: Array<any> = [];
   selectedIndex: number;
   numberOfWord: number = 0;
+  selectedFile = null ;
+  @ViewChild('imagine') el:ElementRef
 
-
-  constructor(private addAnuntService: AddAnuntService, private loginService: LoginService) { }
+  constructor(private anunturiService: AnunturiService, private loginService: LoginService,
+    private router:Router,private notifier:NotifierService) { }
 
   ngOnInit(): void {
+    
+    
   }
 
   uploadForm = new FormGroup({
@@ -78,46 +84,49 @@ export class AddComponent implements OnInit {
     'city': new FormControl("adasd", Validators.required),
     'species': new FormControl(this.species[0], Validators.required),
     'phoneNumber': new FormControl(null, Validators.required),
-    'description': new FormControl('', Validators.required)
+    'description': new FormControl('', Validators.required),
+    'image':new FormControl(null,Validators.required)
   });
 
   onChangeCounty(event) {
     const value = event.target.value;
-    const county = value.substring(3, value.length)
+    const county = value.substring(3, value.length).trim();
     this.cities = this.countyList.find(con => con.name == county).cities;
   }
 
   onSubmit() {
     var formData = new FormData();
-    const date = formatDate(new Date(), 'yyyy/MM/dd', 'en');
-    console.log(date);
-    formData.append("user", "1");
+    
+    formData.append("user", ""+this.loginService.loggedInUser.id);
     formData.append("description", this.uploadForm.get('description').value);
     formData.append("title", this.uploadForm.get('title').value);
     formData.append("city", this.uploadForm.get('city').value);
     formData.append("species", this.uploadForm.get('species').value);
     formData.append("county", this.uploadForm.get('county').value);
     formData.append("phoneNumber", this.uploadForm.get('phoneNumber').value);
+    formData.append("image", this.selectedFile);
 
-    this.addAnuntService.add(formData).subscribe(
+    this.anunturiService.add(formData).subscribe(
       (anunt:Anunt) => {
-        console.log(anunt);
-        
+        this.notifier.notify('success','Anuntul a fost adaugat');
+        this.router.navigate(['/anunturilemele'])  
       },
       (error:HttpErrorResponse) => {
-        console.log(error.error.message);
-        
+        this.notifier.notify('error',error.error.message);
       }
     )
     
-    console.log(formData.get("description"));
-    console.log(formData.get("title"));
-    console.log(formData.get("city"));
-    console.log(formData.get("species"));
-    console.log(formData.get("phoneNumber"));
-    console.log(formData.get("user"));  
+    // console.log(formData.get("description"));
+    // console.log(formData.get("title"));
+    // console.log(formData.get("city"));
+    // console.log(formData.get("species"));
+    // console.log(formData.get("phoneNumber"));
+    // console.log(formData.get("user"));  
     
   }
 
-  
+  onChangeImage(event){
+    this.el.nativeElement.src = URL.createObjectURL(event.target.files[0]);
+    this.selectedFile = event.target.files[0];
+  }
 }

@@ -19,13 +19,16 @@ export class AnunturiComponent implements OnInit {
 
   getAnunturi() {
     this.anunturiService.getAnunturi().subscribe(
-      (anunt: Anunt[]) => {
-        this.anunturi = anunt;
+      (anunturi: Anunt[]) => {
+        this.anunturi = anunturi;
+        console.log(anunturi);
+        
       },
       (error: HttpErrorResponse) => {
         console.log(error.error.message);
         
       }
     );
+
   }
 }

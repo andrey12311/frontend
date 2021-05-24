@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="card-title mb-4">
+                        <div class="d-flex justify-content-start">
+                            <div class="image-container">
+                                <img src="../../../../assets/blank-profile.png" style="width: 150px; height: 150px"
+                                    class="img-thumbnail" />
+                            </div>
+                            <ul>
+                                <li>{{user?.lastName}} {{user?.firstName}}</li>
+                                <li>{{user?.email}}</li>
+                            </ul>
+                            <div class="ml-auto">
+                                <input type="button" class="btn btn-primary d-none" id="btnDiscard"
+                                    value="Discard Changes" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div [routerLink]="['./schimba-mail']" onclick="location.href;" style = "cursor:pointer" class="col-6">
+                                    <a>Schimba adresa de mail</a>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div [routerLink]="['./schimba-parola']" onclick="location.href;" style = "cursor:pointer" class="col-6">
+                                    <a>Schimba parola</a>
+                                </div>
+                            </div>
+                            <hr>
+                            <div onclick="location.href;" style = "cursor:pointer" class="row">
+                                <div class=" col-6">
+                                    <a>Sterge contul</a>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

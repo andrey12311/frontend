@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 import { User } from 'src/app/model/User';
 import { RegisterService } from 'src/app/services/register/register.service';
 
@@ -11,7 +12,7 @@ import { RegisterService } from 'src/app/services/register/register.service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private registerService:RegisterService,private router:Router) { }
+  constructor(private registerService:RegisterService,private router:Router,private notifier:NotifierService) { }
 
   isLoading:boolean = false;
   @ViewChild('createButton')createAccountButton:ElementRef 
@@ -25,10 +26,12 @@ export class RegisterComponent implements OnInit {
       this.registerService.register(user).subscribe(
         (response: User) => {
           this.isLoading = false;
-          this.router.navigate(['/login'])
+          this.router.navigate(['/login']);
+          this.notifier.notify('success','Contul a fost creat, un mail de confirmare a fost trimis pe adresa dumneavoastra.');
         },
-        (errorResponse: HttpErrorResponse) => {
+        (error: HttpErrorResponse) => {
           this.isLoading = false;
+          this.notifier.notify('warning',error.error.message);
         }
       )
     

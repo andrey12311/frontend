@@ -1,0 +1,17 @@
+<div class="container">
+    <h3>Anunturile mele</h3>
+    <br>
+
+    <div onclick="location.href;" style = "cursor:pointer" routerLink = "/anunturilemele/{{anunt.id}}" *ngFor="let anunt of anunturi" class="card shadow p-3 mb-5 bg-white rounded">
+        <img src = {{anunt?.image}}
+            class="responsive" />
+        <div class="card-body">
+            <h5 class="card-title">{{anunt.title}}</h5>
+            <ul>
+                <li>{{anunt.city}},{{anunt.county}}</li>
+                <li>{{anunt.species}}</li>
+                <li>{{anunt.dateAdded}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

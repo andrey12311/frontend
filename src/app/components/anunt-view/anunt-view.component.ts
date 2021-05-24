@@ -2,7 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Anunt } from 'src/app/model/Anunt';
-import { AnuntViewService } from 'src/app/services/anunt-view/anunt-view.service';
+import { AnunturiService } from 'src/app/services/anunturi/anunturi.service';
+
 
 @Component({
   selector: 'app-anunt-view',
@@ -11,7 +12,7 @@ import { AnuntViewService } from 'src/app/services/anunt-view/anunt-view.service
 })
 export class AnuntViewComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute, private anuntService: AnuntViewService) { }
+  constructor(private activatedRoute: ActivatedRoute, private anuntService: AnunturiService) { }
 
   anunt: Anunt
   ngOnInit(): void {
@@ -22,9 +23,7 @@ export class AnuntViewComponent implements OnInit {
     const id = +this.activatedRoute.snapshot.paramMap.get('id');
     this.anuntService.getAnunt(id).subscribe(
       (anunt:Anunt)=>{
-        this.anunt = anunt;
-      
-        
+         this.anunt = anunt;
       },
       (error:HttpErrorResponse) => {
         console.log(error.error.message);

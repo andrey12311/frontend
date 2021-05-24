@@ -1,9 +1,16 @@
 <div class="container">
   <div>
     <div class="form-area">
-      <form [formGroup]="uploadForm" (ngSubmit) = "onSubmit()">
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
         <br style="clear:both">
         <h3 style="margin-bottom: 25px; text-align: center;">Adauga anunt</h3>
+        <div class="responsive">
+          <img #imagine >
+        </div>
+        <div class=form-group>
+          <label for="poza">Alegeti poza</label>
+          <input formControlName = "image" (change)="onChangeImage($event)" class="form-control" id="poza" type="file" accept="image/*">
+        </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Titlu" formControlName="title">
           <div class="uncomplete" *ngIf="uploadForm.get('title').touched && !uploadForm.get('title').valid">Titlul
@@ -11,20 +18,20 @@
         </div>
         <div class="form-group">
           <select formControlName="county" (change)="onChangeCounty($event)" class="form-control" name="county">
-            <option *ngFor="let county of countyList let i = index; " [ngValue]="county.name">{{county.name}}</option>
+            <option *ngFor="let county of countyList" [ngValue]="county.name">{{county.name}}</option>
           </select>
           <div class="uncomplete"
             *ngIf="uploadForm.get('county').touched && uploadForm.get('county').value === 'Alegeti judetul'">
             Alegeti un judet!</div>
         </div>
         <select class="form-control" formControlName="city">
-          <option  *ngFor="let city of cities">{{city}}</option>
+          <option *ngFor="let city of cities">{{city}}</option>
         </select>
         <div class="uncomplete"
           *ngIf="uploadForm.get('city').touched && uploadForm.get('city').value === 'Alegeti orasul'">
           Alegeti un oras</div>
         <select class="form-control" formControlName="species">
-          <option [ngValue] = "specie" *ngFor="let specie of species">{{specie}}</option>
+          <option [ngValue]="specie" *ngFor="let specie of species">{{specie}}</option>
         </select>
         <div class="uncomplete"
           *ngIf="uploadForm.get('species').touched && uploadForm.get('species').value === 'Alegeti specia'">
@@ -36,14 +43,15 @@
           Un numar de telefon trebuie adaugat
         </div>
         <div class="form-group">
-          <textarea  formControlName="description" class="form-control" type="textarea"
-            placeholder="Descriere" maxlength="140" rows="7"></textarea>
+          <textarea formControlName="description" class="form-control" type="textarea" placeholder="Descriere"
+            maxlength="140" rows="7"></textarea>
           <span>{{uploadForm.get('description').value.length}}/1000</span>
         </div>
-        <div class = "uncomplete" *ngIf="uploadForm.get('description').touched && !uploadForm.get('description').valid">
+        <div class="uncomplete" *ngIf="uploadForm.get('description').touched && !uploadForm.get('description').valid">
           Adaugati o descriere
         </div>
-        <button type="submit" class="btn">Adauga</button>
+        <button [ngClass] = "{'disabled':!uploadForm.valid || isLoading}" 
+        [disabled] = "!uploadForm.valid || isLoading" type="submit" class="btn">Adauga</button>
       </form>
     </div>
   </div>

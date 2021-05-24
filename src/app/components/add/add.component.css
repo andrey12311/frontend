@@ -27,3 +27,17 @@ textarea{
   color:red;
   margin-top:5px;
 }
+
+.responsive{
+  width:100%;
+  
+}
+
+.responsive img{
+  width: 20%;
+  height: 20%;
+}
+
+.disabled{
+  background-color: grey;
+}

@@ -1,0 +1,23 @@
+.orange{
+  background-color: orange;
+  color: white;
+}
+
+.card {
+  flex-direction: row;
+  align-items: center;
+  border: none;
+}
+.card-title {
+  font-weight: bold;
+}
+.card img {
+  width: 15%;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: calc(0.25rem - 1px);
+}
+
+.responsive{
+max-height:150px;
+width: 100%;
+}

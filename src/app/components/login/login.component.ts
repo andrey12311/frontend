@@ -1,6 +1,9 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
+import { Observable } from 'rxjs';
+import { AppComponent } from 'src/app/app.component';
 import { User } from 'src/app/model/User';
 import { LoginService } from 'src/app/services/login/login.service';
 
@@ -10,26 +13,29 @@ import { LoginService } from 'src/app/services/login/login.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  subscriptions: Subscription[] = [];
 
-  constructor(private loginService: LoginService) { }
+
+  constructor(private loginService: LoginService,private router:Router,private appComponent:AppComponent
+    ,private notifierService:NotifierService) { }
 
   ngOnInit(): void {
   }
 
 
   onLogin(user: User): void {
-    this.subscriptions.push(
-      this.loginService.login(user).subscribe(
-        (user: HttpResponse<User>) => {
-          console.log(user);
-          
-           this.loginService.loggedInUser = user.body;
-        },
-        (errorResponse: HttpErrorResponse) => {
-          console.log(errorResponse);
-        }
-      )
+   
+    this.loginService.login(user).subscribe(
+      (user: HttpResponse<User>) => {
+        this.loginService.loggedInUser = user.body;
+        this.appComponent.authenticated = true;
+        this.loginService.authenticated = true;
+        this.router.navigate(['/anunturi']);
+        console.log(user);
+      },
+      (error: HttpErrorResponse) => {
+        this.notifierService.notify('error',error.error.message);
+        console.log(error.error.message);
+      }
     );
   }
 

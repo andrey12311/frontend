@@ -71,7 +71,7 @@ ul{
 .button{
     padding-bottom:30px;
 }
-.button a{
+.button{
     display: inline-block;
     font-size:12px;
     text-transform: uppercase;
@@ -82,7 +82,7 @@ ul{
     font-family: montserrat;
     text-decoration: none;
     background-color:orange;
-    
+    margin-right : 4px;
     border-radius: 5px;
     
 }
@@ -110,58 +110,6 @@ ul{
     border-radius: 10px;
     margin-bottom:100px;
 }
-
-
-  /* Hide the images by default */
-  
-  
-  /* Next & previous buttons */
-  .prev, .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    margin-top: -22px;
-    padding: 16px;
-    color: white;
-    background-color: white;
-    font-weight: bold;
-    font-size: 18px;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-  }
-  
-  /* Position the "next button" to the right */
-  .next {
-    right: 0;
-  }
-  .prev{
-    left:0;
-  }
-  
-  /* On hover, add a black background color with a little bit see-through */
-  .prev:hover, .next:hover {
-    background-color: rgba(211, 211, 211, 0.788);
-  }
-  
-  
-  
-  /* The dots/bullets/indicators */
-  .dot {
-    cursor: pointer;
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.6s ease;
-  }
-  
-  .active, .dot:hover {
-    background-color: #717171;
-  }
   
 
 
