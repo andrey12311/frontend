@@ -1,20 +1,23 @@
 
 import { HttpErrorResponse } from '@angular/common/http';
+import { ThrowStmt } from '@angular/compiler';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Anunt } from 'src/app/model/Anunt';
 import { AnunturiService } from 'src/app/services/anunturi/anunturi.service';
 import { LoginService } from 'src/app/services/login/login.service';
 
-
 @Component({
-  selector: 'app-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.css']
+  selector: 'app-modify-anunt',
+  templateUrl: './modify-anunt.component.html',
+  styleUrls: ['./modify-anunt.component.css']
 })
-export class AddComponent implements OnInit {
+export class ModifyAnuntComponent implements OnInit {
+
+  constructor(private loginService:LoginService,private anunturiService:AnunturiService
+    ,private notifier:NotifierService,private router:Router,private activatedRoute:ActivatedRoute) {}
 
   countyList: Array<any> = [
     { name: 'Alegeti judetul', cities: ['Alegeti orasul'] },
@@ -68,25 +71,48 @@ export class AddComponent implements OnInit {
   selectedIndex: number;
   numberOfWord: number = 0;
   selectedFile = null ;
+  anunt:Anunt;
+  uploadForm = new FormGroup({
+    'title': new FormControl('', Validators.required),
+    'county': new FormControl('', Validators.required),
+    'city': new FormControl('', Validators.required),
+    'species': new FormControl('', Validators.required),
+    'phoneNumber': new FormControl('', Validators.required),
+    'description': new FormControl('', Validators.required),
+    'id' : new FormControl()
+  });
+  
   @ViewChild('imagine') el:ElementRef
 
-  constructor(private anunturiService: AnunturiService, private loginService: LoginService,
-    private router:Router,private notifier:NotifierService) { }
 
-  ngOnInit(): void {
-    
+
+  async ngOnInit() {
+    await this.getAnunt();
     
   }
 
-  uploadForm = new FormGroup({
-    'title': new FormControl("", Validators.required),
-    'county': new FormControl(this.countyList[0].name, Validators.required),
-    'city': new FormControl("adasd", Validators.required),
-    'species': new FormControl(this.species[0], Validators.required),
-    'phoneNumber': new FormControl(null, Validators.required),
-    'description': new FormControl('', Validators.required),
-    'image':new FormControl(null,Validators.required)
-  });
+  async getAnunt(){
+    const id = +this.activatedRoute.snapshot.paramMap.get('id');
+    
+   this.anunturiService.getAnunt(id).subscribe(
+     (anunt:Anunt)=>{
+      this.anunt = anunt;
+      this.uploadForm.patchValue({'title':this.anunt.title});
+      this.uploadForm.patchValue({'county':this.anunt.county});
+      this.uploadForm.patchValue({'city':this.anunt.city});
+      this.uploadForm.patchValue({'species':this.anunt.species});
+      this.uploadForm.patchValue({'phoneNumber':this.anunt.phoneNumber});
+      this.uploadForm.patchValue({'description':this.anunt.description});
+      const county = this.uploadForm.get('county').value;
+      this.cities = this.countyList.find(con => con.name == county).cities;
+      
+     },
+     (error:HttpErrorResponse) =>{
+       this.notifier.notify('error',error.error.message);
+     }
+   )
+  }
+
 
   onChangeCounty(event) {
     const value = event.target.value;
@@ -104,11 +130,12 @@ export class AddComponent implements OnInit {
     formData.append("species", this.uploadForm.get('species').value);
     formData.append("county", this.uploadForm.get('county').value);
     formData.append("phoneNumber", this.uploadForm.get('phoneNumber').value);
-    formData.append("image", this.selectedFile);
+    formData.append("id", ""+this.anunt.id);
+    
 
-    this.anunturiService.add(formData).subscribe(
+    this.anunturiService.updateAnunt(formData).subscribe(
       (anunt:Anunt) => {
-        this.notifier.notify('success','Anuntul a fost adaugat');
+        this.notifier.notify('success','Anuntul a fost modificat');
         this.router.navigate(['/anunturilemele'])  
       },
       (error:HttpErrorResponse) => {
@@ -116,17 +143,14 @@ export class AddComponent implements OnInit {
       }
     )
     
-    // console.log(formData.get("description"));
-    // console.log(formData.get("title"));
-    // console.log(formData.get("city"));
-    // console.log(formData.get("species"));
-    // console.log(formData.get("phoneNumber"));
-    // console.log(formData.get("user"));  
+    console.log(formData.get("description"));
+    console.log(formData.get("title"));
+    console.log(formData.get("city"));
+    console.log(formData.get("species"));
+    console.log(formData.get("phoneNumber"));
+    console.log(formData.get("user"));  
+    console.log(formData.get("id"));  
     
   }
 
-  onChangeImage(event){
-    this.el.nativeElement.src = URL.createObjectURL(event.target.files[0]);
-    this.selectedFile = event.target.files[0];
-  }
 }

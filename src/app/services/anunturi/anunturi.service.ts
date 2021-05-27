@@ -29,4 +29,8 @@ export class AnunturiService {
   deleteAnunt(id:number){
     return this.http.delete(`${this.url}/delete/${id}`,{withCredentials:true});
   }
+
+  updateAnunt(formData:FormData){
+    return this.http.post<Anunt>(`${this.url}/update`,formData,{withCredentials:true});
+  }
 }

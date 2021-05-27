@@ -17,6 +17,9 @@ import { SettingsComponent } from './components/settings/settings/settings.compo
 import { ChangePasswordComponent } from './components/settings/change-password/change-password.component';
 import { ChangeEmailComponent } from './components/settings/change-email/change-email.component';
 import { NotificationModule } from './notification.module';
+import { ModifyAnuntComponent } from './components/anunturile-mele/anuntul-meu/modify-anunt/modify-anunt.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+
 
 
 
@@ -33,7 +36,9 @@ import { NotificationModule } from './notification.module';
     EmailConfirmedComponent,
     SettingsComponent,
     ChangePasswordComponent,
-    ChangeEmailComponent
+    ChangeEmailComponent,
+    ModifyAnuntComponent,
+    AdminDashboardComponent,
   ],
   imports: [
     BrowserModule,

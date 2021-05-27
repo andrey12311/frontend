@@ -1,0 +1,43 @@
+
+.red{
+    color:red;
+    }
+  .form-area
+  {
+  background-color: #FAFAFA;
+  padding: 10px 40px 60px;
+  margin: 10px 0px 60px;
+  border: none;
+  }
+  
+  .form-control{
+    margin-top: 10px;
+  }
+  
+  textarea{
+    margin-top: 10px;
+  }
+  
+  .btn{
+    background-color: orange;
+    margin-top : 5px;
+  }
+  
+  .uncomplete{
+    color:red;
+    margin-top:5px;
+  }
+  
+  .responsive{
+    width:100%;
+    
+  }
+  
+  .responsive img{
+    width: 20%;
+    height: 20%;
+  }
+  
+  .disabled{
+    background-color: grey;
+  }

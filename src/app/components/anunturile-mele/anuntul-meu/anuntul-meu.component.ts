@@ -12,7 +12,7 @@ import { AnunturiService } from 'src/app/services/anunturi/anunturi.service';
 })
 export class AnuntulMeuComponent implements OnInit {
 
-  anunt: Anunt
+  anunt: Anunt;
   constructor(private activatedRoute: ActivatedRoute, private anuntService: AnunturiService,
     private notifier:NotifierService,private router:Router) { }
 
@@ -29,9 +29,7 @@ export class AnuntulMeuComponent implements OnInit {
 
       },
       (error: HttpErrorResponse) => {
-        console.log(error.error.message);
-
-      }
+        this.notifier.notify('error',error.error.message);      }
     )
   }
 
@@ -46,5 +44,8 @@ export class AnuntulMeuComponent implements OnInit {
         this.notifier.notify('error',error.error.message);
       }
     )
+  }
+  onModify(){
+    this.router.navigate(['modifica'],{relativeTo:this.activatedRoute});
   }
 }
